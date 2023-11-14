@@ -13,4 +13,5 @@ export interface IPokemon {
 
 export interface IPokemonListResponse {
 	results: IPokemons[];
+	next?: string;
 }

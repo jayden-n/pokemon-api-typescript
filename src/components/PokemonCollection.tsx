@@ -12,8 +12,8 @@ const PokemonCollection: FC<IPokemonCollectionProps> = (props) => {
 	return (
 		<>
 			<section className='collection-container'>
-				{pokemons.map((pokemon) => (
-					<div key={pokemon.id}>
+				{pokemons.map((pokemon, index) => (
+					<div key={index}>
 						<PokemonList
 							name={pokemon.name}
 							id={pokemon.id}
