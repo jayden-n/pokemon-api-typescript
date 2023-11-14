@@ -1,25 +1,9 @@
 import { useEffect, useState, type FC } from "react";
 import "./App.css";
 import PokemonCollection from "./components/PokemonCollection";
+import { IPokemon, IPokemonListResponse, IPokemons } from "./types/interface";
 
 const baseUrl = "https://pokeapi.co/api/v2";
-
-export interface IPokemons {
-	name: string;
-	url: string;
-}
-
-export interface IPokemon {
-	id: number;
-	name: string;
-	sprites: {
-		front_default: string;
-	};
-}
-
-export interface IPokemonListResponse {
-	results: IPokemons[];
-}
 
 const App: FC = () => {
 	const [pokemons, setPokemons] = useState<IPokemon[]>([]);
@@ -41,6 +25,7 @@ const App: FC = () => {
 		}
 		fetchPokemons();
 	}, []);
+
 	return (
 		<>
 			<div className='container'>

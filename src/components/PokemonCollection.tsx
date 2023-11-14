@@ -1,5 +1,6 @@
 import { type FC } from "react";
-import { IPokemon } from "../App";
+import { IPokemon } from "../types/interface";
+import PokemonList from "./pokemonList/PokemonList";
 
 interface IPokemonCollectionProps {
 	pokemons: IPokemon[];
@@ -10,7 +11,17 @@ const PokemonCollection: FC<IPokemonCollectionProps> = (props) => {
 
 	return (
 		<>
-			<div>pokemon</div>
+			<section className='collection-container'>
+				{pokemons.map((pokemon) => (
+					<div key={pokemon.id}>
+						<PokemonList
+							name={pokemon.name}
+							id={pokemon.id}
+							image={pokemon.sprites.front_default}
+						/>
+					</div>
+				))}
+			</section>
 		</>
 	);
 };
