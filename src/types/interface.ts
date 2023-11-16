@@ -15,3 +15,16 @@ export interface IPokemonListResponse {
 	results: IPokemons[];
 	next?: string;
 }
+
+export interface IPokeDetail {
+	id: number;
+	isOpened: boolean;
+}
+
+export interface IPokemonDetail extends IPokemon {
+	// optional abilities
+	abilities?: {
+		ability: string;
+		name: string;
+	}[];
+}

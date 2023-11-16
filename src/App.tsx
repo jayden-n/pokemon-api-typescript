@@ -1,13 +1,25 @@
 import { useEffect, useState, type FC } from "react";
 import "./App.css";
 import PokemonCollection from "./components/PokemonCollection";
-import { IPokemon, IPokemonListResponse, IPokemons } from "./types/interface";
+import {
+	IPokeDetail,
+	IPokemon,
+	IPokemonListResponse,
+	IPokemons,
+} from "./types/interface";
 
 const baseUrl = "https://pokeapi.co/api/v2";
 
 const App: FC = () => {
 	const [pokemons, setPokemons] = useState<IPokemon[]>([]);
 	const [nextUrl, setNextUrl] = useState<string>();
+	const [isLoading, setIsLoading] = useState<boolean>(true);
+
+	const [viewDetail, setViewDetail] = useState<IPokeDetail>({
+		// store the id for when user choose 1 pokemon
+		id: 0,
+		isOpened: false,
+	});
 
 	useEffect(() => {
 		// get all pokemons
@@ -25,6 +37,7 @@ const App: FC = () => {
 
 				// have to make it an "array"
 				setPokemons((prevPokemons) => [...prevPokemons, pokeData]);
+				setIsLoading(false);
 			});
 		}
 
@@ -32,6 +45,7 @@ const App: FC = () => {
 	}, []);
 
 	const handleLoadMore = async () => {
+		setIsLoading(true);
 		// fix: make an "if" check
 		// due to the fact that nextUrl is declared as string | undefined, and the fetch function expects a URL (a string or a Request object), not undefined
 		if (nextUrl) {
@@ -48,16 +62,25 @@ const App: FC = () => {
 				setPokemons((prevPokemons) => [...prevPokemons, pokeNextData]);
 			});
 		}
+		setIsLoading(false);
 	};
 
 	return (
 		<>
 			<div className='container'>
 				<header className='pokemon-header'>Pokemon</header>
-				<PokemonCollection pokemons={pokemons} />
-				<div className='btn'>
-					<button onClick={handleLoadMore}>Load more</button>
-				</div>
+				<PokemonCollection
+					pokemons={pokemons}
+					viewDetail={viewDetail}
+					setViewDetail={setViewDetail}
+				/>
+				{!viewDetail.isOpened && (
+					<div className='btn'>
+						<button onClick={handleLoadMore}>
+							{isLoading ? "Loading..." : "Load more!"}
+						</button>
+					</div>
+				)}
 			</div>
 		</>
 	);
